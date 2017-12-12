@@ -1,0 +1,20 @@
+﻿<div>
+	<button class="btn btn-primary" data-bind="click:add">新增</button>
+	
+	<table class="table table-bordered table-striped table-hover">
+		<tbody data-bind="foreach: userList">
+			<tr>
+				<td data-bind="text:$index() + 1"></td>
+				<td>
+					<a href="javascript:void(0)" data-bind="text:name,click:$root.edit"></a>
+				</td>
+				<td>
+					<button class="btn btn-danger btn-xs" data-bind="click:$root.remove">删除</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="row-fluid" data-bind="compose : grid"></div>
+	
+</div>

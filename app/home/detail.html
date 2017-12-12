@@ -1,0 +1,24 @@
+<div class="modal-content" style="width: 600px;">
+	<div class="modal-header">
+		<h3>标题</h3>
+	</div>
+	<form data-bind="submit:ok">
+
+		<div class="modal-body" style="height: 300px;">
+			<label>编号</label>
+			<div>
+				<input class="form-control" data-bind="value:user().id,disable:true" />
+			</div>
+			<label>姓名</label>
+			<div>
+				<input class="form-control" data-bind="value:user().name" placeholder="请输入姓名" required="required" />
+			</div>
+		</div>
+
+		<div class="modal-footer">
+			<button type="submit" class="btn btn-primary">确定</button>
+			<button type="button" class="btn btn-default" data-bind="click:cancel,css:'autofocus'">取消</button>
+		</div>
+
+	</form>
+</div>

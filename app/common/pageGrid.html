@@ -1,0 +1,110 @@
+﻿<div>
+	<table class="table table-bordered table-striped table-hover">
+		<thead>
+			<tr>
+				<th style="width: 30px;" data-bind="visible: isCheck && !isRadio">
+					<input type="checkbox" data-type="checkAll" data-bind="checked: checkAll, tips: { content: '全选 / 取消' }" />
+				</th>
+				<th style="width: 30px;" data-bind="visible: isCheck && isRadio">选择
+				</th>
+				<th data-bind="visible: isBefore, style: { width: operateWidth }">操作
+				</th>
+				<!-- ko foreach: columns -->
+
+				<!-- ko if: !orderby.key -->
+				<th data-bind="style: { width: width },text: headerText"></th>
+				<!-- /ko -->
+
+				<!-- ko if: orderby.key-->
+				<th data-bind="css: { header: true, headerSortUp: order() == 'DESC', headerSortDown: order() == 'ASC' }, text: headerText, style: { width: width }, click: $parent.oreder"></th>
+				<!-- /ko -->
+
+				<!-- /ko -->
+				<th data-bind="visible: isBehind, style: { width: operateWidth }">操作
+				</th>
+			</tr>
+		</thead>
+		<tbody data-bind="foreach: data">
+			<tr data-bind="css: { 'even': $index() % 2 != 0 }">
+				<td style="text-align: center;" data-bind="visible: $root.isCheck && !$root.isRadio">
+					<input type="checkbox" data-bind="checked: $root.keys, value: $root.orgCheckVal($data,$root.checkKey)" />
+				</td>
+				<td style="text-align: center;" data-bind="visible: $root.isCheck && $root.isRadio">
+					<input type="radio" data-bind="checked: $root.key, value: $root.orgCheckVal($data,$root.checkKey), attr: { name: $root.checkKey }" />
+				</td>
+				<td style="text-align: center;" data-bind="visible: $root.isBefore">
+					<!-- ko foreach:  $parent.operate -->
+
+					<!-- ko if: readonly.key && $parent[readonly.key] == readonly.val -->
+					<!-- ko text:  name -->
+					<!-- /ko -->
+					&nbsp;
+					<!-- /ko -->
+
+					<!-- ko if: !readonly.key || $parent[readonly.key] != readonly.val -->
+					<a href="javascript:void(0);" data-bind="click: function () { callback($parent[key]); }, text: name"></a>&nbsp;
+					<!-- /ko -->
+
+					<!-- /ko -->
+				</td>
+
+				<!-- ko foreach:  $parent.columns -->
+				<td data-bind="style: { textAlign: place }, visible: isOperate">
+					<a href="javascript:void(0);" data-bind="click: function () { callback($root.orgCheckVal($parent, key)); }, html: isHide ? $root.subStr($parent[rowText], hidCount) : $parent[rowText],
+    tips: { content: $parent[rowText], show: $root.isShowTip($parent[rowText], hidCount, isHide) }"></a>
+				</td>
+				<td data-bind="style: { textAlign: place }, visible: !isOperate">
+					<span data-bind="html: isHide ? $root.subStr($parent[rowText], hidCount) : $parent[rowText],
+    tips: { content: $parent[rowText], show: $root.isShowTip($parent[rowText], hidCount, isHide) }"></span>
+				</td>
+				<!-- /ko -->
+
+				<td style="text-align: center;" data-bind="visible: $root.isBehind">
+					<!-- ko foreach:  $parent.operate -->
+
+					<!-- ko if: readonly.key && $parent[readonly.key] == readonly.val -->
+					<!-- ko html:  name -->
+					<!-- /ko -->
+					&nbsp;
+					<!-- /ko -->
+
+					<!-- ko if:  !readonly.key || $parent[readonly.key] != readonly.val -->
+					<a href="javascript:void(0);" data-bind="click: function () { callback($root.orgCheckVal($parent, key)); }, html: name"></a>&nbsp;
+					<!-- /ko -->
+
+					<!-- /ko -->
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div data-bind="visible: isPage">
+		<div class="col-md-8" style="height: 34px; line-height: 34px;">
+			第<b data-bind="text: pageCurrent"></b>页&nbsp;共<b data-bind="text: TotalPages"></b>页
+		</div>
+		<div class="col-md-4 text-right">
+			<ul class="pagination" style="padding: 0px; margin: 0px;">
+				<li data-bind="css: { disabled: prev }"><a href="javascript:void(0)" data-bind="    click: firstPage"><span>首页</span></a></li>
+				<li data-bind="css: { disabled: prev }"><a href="javascript:void(0)" data-bind="    click: previousPage"><span>上一页</span></a></li>
+
+				<!-- ko foreach: pageButtons -->
+
+				<!-- ko if: isActive -->
+				<li data-bind="css: { active: isActive }">
+					<a href="javascript:void(0);" data-bind="text: name"></a>
+				</li>
+				<!-- /ko -->
+
+				<!-- ko if: !isActive -->
+				<li data-bind="css: { active: isActive }">
+					<a href="javascript:void(0);" data-bind="text: name, click: $parent.turnPage.bind($data, name)"></a>
+				</li>
+				<!-- /ko -->
+				<!-- /ko -->
+
+				<li data-bind="css: { disabled: next }"><a href="javascript:void(0)" data-bind="    click: nextPage"><span>下一页</span></a></li>
+				<li data-bind="css: { disabled: next }"><a href="javascript:void(0)" data-bind="    click: lastPage"><span>末页</span></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
